@@ -25,6 +25,7 @@ import com.vibhorpatil.composeapplication.receipe.RecipeActivity
 import com.vibhorpatil.composeapplication.shoppinglist.ShoppingListActivity
 import com.vibhorpatil.composeapplication.ui.theme.ComposeApplicationTheme
 import com.vibhorpatil.composeapplication.unitconverter.UnitConvertorActivity
+import com.vibhorpatil.composeapplication.wishlist.ui.activity.WishListActivity
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -70,6 +71,9 @@ fun HomePage(navigateTo: (Class<*>) -> Unit) {
             }
             Button(onClick = { navigateTo(RecipeActivity::class.java) }) {
                 Text(text = "Recipe")
+            }
+            Button(onClick = { navigateTo(WishListActivity::class.java) }) {
+                Text(text = "Wishlist")
             }
         }
     }
