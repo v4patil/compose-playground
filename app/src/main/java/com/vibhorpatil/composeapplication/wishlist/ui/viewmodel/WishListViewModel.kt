@@ -25,29 +25,27 @@ class WishListViewModel(application: Application) : AndroidViewModel(application
     init {
         val wishDao = WishDatabase.getDatabase(application).getWishDao()
         wishRepository = WishRepositoryImpl(wishDao)
-        addDummyWish()
         fetchWishList()
     }
 
-    fun addDummyWish() {
+    fun addWish(wish: Wish) {
         viewModelScope.launch {
-            val dummyWish = Wish(
-                title = "Dummy Wish",
-                desc = "This is a dummy wish created for testing."
-            )
-            wishRepository.addAWish(dummyWish)
-            Log.d("WishListViewModel", "Dummy wish inserted: $dummyWish")
+            wishRepository.addAWish(wish)
+            fetchWishList()
+        }
+    }
 
-            // Retrieve and show in logcat
-            wishRepository.getWishes().collect { wishes ->
-                Log.d("WishListViewModel", "Current Wishes in Database:")
-                wishes.forEach { wish ->
-                    Log.d(
-                        "WishListViewModel",
-                        "ID: ${wish.id}, Title: ${wish.title}, Description: ${wish.desc}"
-                    )
-                }
-            }
+    fun updateWish(wish: Wish) {
+        viewModelScope.launch {
+            wishRepository.updateAWish(wish)
+            fetchWishList()
+        }
+    }
+
+    fun deleteWish(wish: Wish) {
+        viewModelScope.launch {
+            wishRepository.deleteAWish(wish)
+            fetchWishList()
         }
     }
 
