@@ -12,23 +12,31 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.vibhorpatil.composeapplication.R
+import com.vibhorpatil.composeapplication.TopAppBarMusic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -38,6 +46,8 @@ import kotlinx.coroutines.launch
  * 2) Create DrawerItem Composable Method
  * 3) Setup NavigationDrawerView with scaffold
  *          1) ModalDrawerSheet
+ *          2) Setup TopApp bar
+ *          3) Setup Bottom Sheet
  *
  *
  *
@@ -53,11 +63,15 @@ class MusicActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NavigationDrawerView() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope: CoroutineScope = rememberCoroutineScope()
+
+    val sheetState = rememberModalBottomSheetState()
+    var isShowBottomSheet by remember { mutableStateOf(false) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -102,9 +116,30 @@ fun NavigationDrawerView() {
         },
         gesturesEnabled = true
     ) {
+        if (isShowBottomSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { isShowBottomSheet = false },
+                sheetState = sheetState
+            ) {
+                Text("Item1")
+                Text("Item2")
+                Text("Item3")
+                Text("Item4")
+            }
+        }
         Scaffold(
             topBar = {
-                com.vibhorpatil.composeapplication.TopAppBar("Hey")
+                TopAppBarMusic(
+                    "Home", {
+                        scope.launch {
+                            drawerState.apply {
+                                if (isClosed) open() else close()
+                            }
+                        }
+                    },
+                    {
+                        isShowBottomSheet = !isShowBottomSheet
+                    })
             },
             floatingActionButton = {
                 ExtendedFloatingActionButton(
