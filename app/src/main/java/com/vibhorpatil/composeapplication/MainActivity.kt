@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.vibhorpatil.composeapplication.music.MusicActivity
 import com.vibhorpatil.composeapplication.navigation.NavigationActivity
 import com.vibhorpatil.composeapplication.receipe.RecipeActivity
 import com.vibhorpatil.composeapplication.shoppinglist.ShoppingListActivity
@@ -74,6 +75,9 @@ fun HomePage(navigateTo: (Class<*>) -> Unit) {
             }
             Button(onClick = { navigateTo(WishListActivity::class.java) }) {
                 Text(text = "Wishlist")
+            }
+            Button(onClick = { navigateTo(MusicActivity::class.java) }) {
+                Text(text = "Music")
             }
         }
     }
