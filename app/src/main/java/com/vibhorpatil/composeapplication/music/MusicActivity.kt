@@ -7,7 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -21,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
@@ -36,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.vibhorpatil.composeapplication.R
 import com.vibhorpatil.composeapplication.TopAppBarMusic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -82,17 +79,6 @@ fun NavigationDrawerView() {
                 HorizontalDivider()
                 screensInDrawer.forEach {
                     DrawerItem(false, it, {})
-//                    NavigationDrawerItem(
-//                        icon = {
-//                            Icon(
-//                                painter = painterResource(it.icon),
-//                                contentDescription = it.title
-//                            )
-//                        },
-//                        label = { Text(it.title) },
-//                        selected = false,
-//                        onClick = {}
-//                    )
                 }
             }
         },
@@ -135,8 +121,8 @@ fun NavigationDrawerView() {
                     }
                 )
             }
-        ) {
-
+        ) { paddingValues ->
+            SubscriptionScreen(modifier = Modifier.fillMaxWidth().padding(paddingValues))
         }
     }
 
