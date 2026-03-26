@@ -27,4 +27,24 @@ sealed class Screen(val title: String, val route: String) {
 
     }
 
+    sealed class BottomScreen(val bTitle: String, val bRoute: String, @DrawableRes val icon: Int)
+        : Screen(bTitle, bRoute)//return type
+    {
+        object Home : BottomScreen("Home", "home", R.drawable.ic_music)
+        object Library : BottomScreen("Library", "library", R.drawable.ic_music_library)
+        object Browse : BottomScreen("Browse", "browse", R.drawable.ic_browse_music)
+    }
+
 }
+
+val screensInBottom = listOf(
+    Screen.BottomScreen.Home,
+    Screen.BottomScreen.Browse,
+    Screen.BottomScreen.Library
+)
+
+val screensInDrawer = listOf(
+    Screen.DrawerScreen.Account,
+    Screen.DrawerScreen.Subscription,
+    Screen.DrawerScreen.AddAccount
+)

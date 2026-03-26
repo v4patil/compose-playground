@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -79,39 +80,20 @@ fun NavigationDrawerView() {
             ModalDrawerSheet {
                 Text("Drawer title", modifier = Modifier.padding(16.dp))
                 HorizontalDivider()
-                NavigationDrawerItem(
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_account),
-                            contentDescription = "Account"
-                        )
-                    },
-                    label = { Text("Account") },
-                    selected = false,
-                    onClick = {}
-                )
-                NavigationDrawerItem(
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_subscribe),
-                            contentDescription = "Subscription"
-                        )
-                    },
-                    label = { Text("Subscription") },
-                    selected = false,
-                    onClick = {}
-                )
-                NavigationDrawerItem(
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_add_account),
-                            contentDescription = "Add Account"
-                        )
-                    },
-                    label = { Text("Add Account") },
-                    selected = false,
-                    onClick = {}
-                )
+                screensInDrawer.forEach {
+                    DrawerItem(false, it, {})
+//                    NavigationDrawerItem(
+//                        icon = {
+//                            Icon(
+//                                painter = painterResource(it.icon),
+//                                contentDescription = it.title
+//                            )
+//                        },
+//                        label = { Text(it.title) },
+//                        selected = false,
+//                        onClick = {}
+//                    )
+                }
             }
         },
         gesturesEnabled = true
@@ -121,10 +103,9 @@ fun NavigationDrawerView() {
                 onDismissRequest = { isShowBottomSheet = false },
                 sheetState = sheetState
             ) {
-                Text("Item1")
-                Text("Item2")
-                Text("Item3")
-                Text("Item4")
+                screensInBottom.forEach {
+                    BottomItem(false, it, {})
+                }
             }
         }
         Scaffold(
@@ -170,7 +151,7 @@ fun DrawerItem(
     val background = if (selected) Color.DarkGray else Color.White
     Row(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 16.dp)
             .background(background)
             .clickable {
@@ -184,6 +165,33 @@ fun DrawerItem(
         )
         Text(
             text = item.dTitle, style = MaterialTheme.typography.headlineSmall
+        )
+    }
+}
+
+@Composable
+fun BottomItem(
+    selected: Boolean,
+    item: Screen.BottomScreen,
+    onDrawerItemClicked: () -> Unit
+) {
+    val background = if (selected) Color.DarkGray else Color.White
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 16.dp)
+            .background(background)
+            .clickable {
+                onDrawerItemClicked()
+            }
+    ) {
+        Icon(
+            painter = painterResource(id = item.icon),
+            contentDescription = item.bTitle,
+            Modifier.padding(end = 8.dp, top = 8.dp)
+        )
+        Text(
+            text = item.bTitle, style = MaterialTheme.typography.headlineSmall
         )
     }
 }
