@@ -3,36 +3,36 @@ package com.vibhorpatil.composeapplication.music
 import androidx.annotation.DrawableRes
 import com.vibhorpatil.composeapplication.R
 
-sealed class Screen(val title: String, val route: String) {
+sealed class Screen(val title: String, val route: MusicScreenNavigation) {
 
-    sealed class DrawerScreen(val dTitle: String, val dRoute: String, @DrawableRes val icon: Int)
+    sealed class DrawerScreen(val dTitle: String, val dRoute: MusicScreenNavigation.DrawerScreenNavigation, @DrawableRes val icon: Int)
         : Screen(dTitle, dRoute){
         object Account : DrawerScreen(
             "Account",
-            "account",
+            MusicScreenNavigation.DrawerScreenNavigation.Account,
             R.drawable.ic_account
         )
 
         object Subscription : DrawerScreen(
             "Subscription",
-            "subscribe",
+            MusicScreenNavigation.DrawerScreenNavigation.Subscription,
             R.drawable.ic_subscribe
         )
 
         object AddAccount : DrawerScreen(
             "Add Account",
-            "add_account",
+            MusicScreenNavigation.DrawerScreenNavigation.AddAccount,
             R.drawable.ic_add_account
         )
 
     }
 
-    sealed class BottomScreen(val bTitle: String, val bRoute: String, @DrawableRes val icon: Int)
+    sealed class BottomScreen(val bTitle: String, val bRoute: MusicScreenNavigation.BottomSheetDialogScreenNavigation, @DrawableRes val icon: Int)
         : Screen(bTitle, bRoute)//return type
     {
-        object Home : BottomScreen("Home", "home", R.drawable.ic_music)
-        object Library : BottomScreen("Library", "library", R.drawable.ic_music_library)
-        object Browse : BottomScreen("Browse", "browse", R.drawable.ic_browse_music)
+        object Home : BottomScreen("Home", MusicScreenNavigation.BottomSheetDialogScreenNavigation.Home, R.drawable.ic_music)
+        object Library : BottomScreen("Library", MusicScreenNavigation.BottomSheetDialogScreenNavigation.Library, R.drawable.ic_music_library)
+        object Browse : BottomScreen("Browse", MusicScreenNavigation.BottomSheetDialogScreenNavigation.Browse, R.drawable.ic_browse_music)
     }
 
 }

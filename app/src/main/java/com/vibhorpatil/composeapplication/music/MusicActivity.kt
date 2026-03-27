@@ -34,6 +34,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.vibhorpatil.composeapplication.TopAppBarMusic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -47,6 +50,7 @@ import kotlinx.coroutines.launch
  *          2) Setup TopApp bar
  *          3) Setup Bottom Sheet
  *          4) Setup SubscriptionScreen and AddAccountDialog
+ *          5) Set Navigation Route
  *
  *
  *
@@ -68,18 +72,41 @@ class MusicActivity : ComponentActivity() {
 fun NavigationDrawerView() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope: CoroutineScope = rememberCoroutineScope()
+    val navController = rememberNavController()
 
     val sheetState = rememberModalBottomSheetState()
     var isShowBottomSheet by remember { mutableStateOf(false) }
+
+    var topAppBarTitle by remember { mutableStateOf("") }
+    val isShowAddAccountDialog = remember {mutableStateOf(false)}
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                Text("Drawer title", modifier = Modifier.padding(16.dp))
+                Text(topAppBarTitle, modifier = Modifier.padding(16.dp))
                 HorizontalDivider()
                 screensInDrawer.forEach {
-                    DrawerItem(false, it, {})
+                    DrawerItem(false, it, {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                        when (it.dRoute) {
+                            MusicScreenNavigation.DrawerScreenNavigation.Account -> {
+                                navController.navigate(MusicScreenNavigation.DrawerScreenNavigation.Account.route)
+                                topAppBarTitle = "Account"
+                            }
+
+                            MusicScreenNavigation.DrawerScreenNavigation.Subscription -> {
+                                navController.navigate(MusicScreenNavigation.DrawerScreenNavigation.Subscription.route)
+                                topAppBarTitle = "Subscription"
+                            }
+
+                            MusicScreenNavigation.DrawerScreenNavigation.AddAccount -> {
+                                isShowAddAccountDialog.value = true
+                            }
+                        }
+                    })
                 }
             }
         },
@@ -123,7 +150,25 @@ fun NavigationDrawerView() {
                 )
             }
         ) { paddingValues ->
-            SubscriptionScreen(modifier = Modifier.fillMaxWidth().padding(paddingValues))
+
+            NavHost(navController = navController, startDestination = MusicScreenNavigation.DrawerScreenNavigation.Account.route) {
+                composable(MusicScreenNavigation.DrawerScreenNavigation.Account.route) {
+                    AccountScreen()
+                }
+                composable (MusicScreenNavigation.DrawerScreenNavigation.Subscription.route){
+                    SubscriptionScreen(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(paddingValues))
+                }
+                composable (MusicScreenNavigation.DrawerScreenNavigation.AddAccount.route){
+                    isShowAddAccountDialog.value = true
+                }
+            }
+
+        }
+
+        if (isShowAddAccountDialog.value) {
+            AddAccountDialogScreen(isShowAddAccountDialog)
         }
     }
 
