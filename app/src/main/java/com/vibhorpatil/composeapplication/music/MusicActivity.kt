@@ -46,6 +46,7 @@ import kotlinx.coroutines.launch
  *          1) ModalDrawerSheet
  *          2) Setup TopApp bar
  *          3) Setup Bottom Sheet
+ *          4) Setup SubscriptionScreen and AddAccountDialog
  *
  *
  *
