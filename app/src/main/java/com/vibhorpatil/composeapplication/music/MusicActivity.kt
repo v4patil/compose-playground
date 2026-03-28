@@ -154,7 +154,24 @@ fun NavigationDrawerView() {
                     .background(color = Color.Cyan),
                     horizontalArrangement = Arrangement.SpaceEvenly) {
                     screensInBottom.forEach {
-                        BottomMenuItem(false, it, {})
+                        BottomMenuItem(false, it, {
+                            when (it.bRoute) {
+                                MusicScreenNavigation.BottomSheetDialogScreenNavigation.Home -> {
+                                    navController.navigate(MusicScreenNavigation.BottomSheetDialogScreenNavigation.Home.route)
+                                    topAppBarTitle = "Home"
+                                }
+
+                                MusicScreenNavigation.BottomSheetDialogScreenNavigation.Browse -> {
+                                    navController.navigate(MusicScreenNavigation.BottomSheetDialogScreenNavigation.Browse.route)
+                                    topAppBarTitle = "Browse"
+                                }
+
+                                MusicScreenNavigation.BottomSheetDialogScreenNavigation.Library -> {
+                                    navController.navigate(MusicScreenNavigation.BottomSheetDialogScreenNavigation.Library.route)
+                                    topAppBarTitle = "Library"
+                                }
+                            }
+                        })
                     }
                 }
             },
@@ -185,6 +202,15 @@ fun NavigationDrawerView() {
                     }
                     composable (MusicScreenNavigation.DrawerScreenNavigation.AddAccount.route){
                         isShowAddAccountDialog.value = true
+                    }
+                    composable (MusicScreenNavigation.BottomSheetDialogScreenNavigation.Home.route){
+                        HomeScreen()
+                    }
+                    composable (MusicScreenNavigation.BottomSheetDialogScreenNavigation.Browse.route){
+                        BrowseScreen()
+                    }
+                    composable (MusicScreenNavigation.BottomSheetDialogScreenNavigation.Library.route){
+                        LibraryScreen()
                     }
                 }
             }
@@ -258,7 +284,11 @@ fun BottomMenuItem(
     onDrawerItemClicked: () -> Unit
 ) {
     Column(
-        modifier = Modifier.wrapContentSize(),
+        modifier = Modifier
+            .wrapContentSize()
+            .clickable {
+                onDrawerItemClicked()
+            },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
