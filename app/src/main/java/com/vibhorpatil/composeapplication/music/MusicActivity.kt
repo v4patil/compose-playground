@@ -6,10 +6,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.DrawerValue
@@ -32,6 +35,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -126,7 +130,7 @@ fun NavigationDrawerView() {
                 sheetState = sheetState
             ) {
                 screensInBottom.forEach {
-                    BottomItem(false, it, {})
+                    BottomSheetItem(false, it, {})
                 }
             }
         }
@@ -143,6 +147,16 @@ fun NavigationDrawerView() {
                     {
                         isShowBottomSheet = !isShowBottomSheet
                     })
+            },
+            bottomBar = {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.Cyan),
+                    horizontalArrangement = Arrangement.SpaceEvenly) {
+                    screensInBottom.forEach {
+                        BottomMenuItem(false, it, {})
+                    }
+                }
             },
             floatingActionButton = {
                 ExtendedFloatingActionButton(
@@ -211,7 +225,7 @@ fun DrawerItem(
 }
 
 @Composable
-fun BottomItem(
+fun BottomSheetItem(
     selected: Boolean,
     item: Screen.BottomScreen,
     onDrawerItemClicked: () -> Unit
@@ -230,6 +244,30 @@ fun BottomItem(
             painter = painterResource(id = item.icon),
             contentDescription = item.bTitle,
             Modifier.padding(end = 8.dp, top = 8.dp)
+        )
+        Text(
+            text = item.bTitle, style = MaterialTheme.typography.headlineSmall
+        )
+    }
+}
+
+@Composable
+fun BottomMenuItem(
+    selected: Boolean,
+    item: Screen.BottomScreen,
+    onDrawerItemClicked: () -> Unit
+) {
+    Column(
+        modifier = Modifier.wrapContentSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            painter = painterResource(id = item.icon),
+            contentDescription = item.bTitle,
+            Modifier
+                .wrapContentSize()
+                .padding(end = 8.dp, top = 8.dp)
         )
         Text(
             text = item.bTitle, style = MaterialTheme.typography.headlineSmall
