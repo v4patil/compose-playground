@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -21,6 +22,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -36,6 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vibhorpatil.composeapplication.TopAppBarMusic
 import kotlinx.coroutines.CoroutineScope
@@ -70,24 +73,29 @@ class MusicActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NavigationDrawerView() {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope: CoroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
+
+    // To get the current route
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
     val sheetState = rememberModalBottomSheetState()
     var isShowBottomSheet by remember { mutableStateOf(false) }
 
-    var topAppBarTitle by remember { mutableStateOf("") }
+    var topAppBarTitle by remember { mutableStateOf("Account") }
     val isShowAddAccountDialog = remember {mutableStateOf(false)}
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                Text(topAppBarTitle, modifier = Modifier.padding(16.dp))
+                Text("Music", modifier = Modifier.padding(16.dp))
                 HorizontalDivider()
                 screensInDrawer.forEach {
-                    DrawerItem(false, it, {
+                    DrawerItem(currentRoute == it.dRoute.route, it, {
                         scope.launch {
                             drawerState.close()
                         }
@@ -125,7 +133,7 @@ fun NavigationDrawerView() {
         Scaffold(
             topBar = {
                 TopAppBarMusic(
-                    "Home", {
+                    topAppBarTitle, {
                         scope.launch {
                             drawerState.apply {
                                 if (isClosed) open() else close()
@@ -151,20 +159,21 @@ fun NavigationDrawerView() {
             }
         ) { paddingValues ->
 
-            NavHost(navController = navController, startDestination = MusicScreenNavigation.DrawerScreenNavigation.Account.route) {
-                composable(MusicScreenNavigation.DrawerScreenNavigation.Account.route) {
-                    AccountScreen()
-                }
-                composable (MusicScreenNavigation.DrawerScreenNavigation.Subscription.route){
-                    SubscriptionScreen(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(paddingValues))
-                }
-                composable (MusicScreenNavigation.DrawerScreenNavigation.AddAccount.route){
-                    isShowAddAccountDialog.value = true
+            Surface(modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)) {
+                NavHost(navController = navController, startDestination = MusicScreenNavigation.DrawerScreenNavigation.Account.route) {
+                    composable(MusicScreenNavigation.DrawerScreenNavigation.Account.route) {
+                        AccountScreen()
+                    }
+                    composable (MusicScreenNavigation.DrawerScreenNavigation.Subscription.route){
+                        SubscriptionScreen()
+                    }
+                    composable (MusicScreenNavigation.DrawerScreenNavigation.AddAccount.route){
+                        isShowAddAccountDialog.value = true
+                    }
                 }
             }
-
         }
 
         if (isShowAddAccountDialog.value) {
@@ -180,7 +189,7 @@ fun DrawerItem(
     item: Screen.DrawerScreen,
     onDrawerItemClicked: () -> Unit
 ) {
-    val background = if (selected) Color.DarkGray else Color.White
+    val background = if (selected) Color.LightGray else Color.White
     Row(
         modifier = Modifier
             .fillMaxWidth()

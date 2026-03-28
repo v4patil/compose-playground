@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -28,9 +27,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SubscriptionScreen(modifier: Modifier) {
+fun SubscriptionScreen() {
     Column(
-        modifier = modifier
+        modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = "Manage Subscription", modifier = Modifier
@@ -98,5 +97,5 @@ fun SubscriptionScreen(modifier: Modifier) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun SubscriptionScreenPreview() {
-    SubscriptionScreen(Modifier.fillMaxWidth())
+    SubscriptionScreen()
 }
