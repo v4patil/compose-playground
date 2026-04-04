@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.vibhorpatil.composeapplication.ChatRoom.ChatRoomActivity
 import com.vibhorpatil.composeapplication.music.MusicActivity
 import com.vibhorpatil.composeapplication.navigation.NavigationActivity
 import com.vibhorpatil.composeapplication.receipe.RecipeActivity
@@ -78,6 +79,9 @@ fun HomePage(navigateTo: (Class<*>) -> Unit) {
             }
             Button(onClick = { navigateTo(MusicActivity::class.java) }) {
                 Text(text = "Music")
+            }
+            Button(onClick = { navigateTo(ChatRoomActivity::class.java) }) {
+                Text(text = "Chat Room")
             }
         }
     }

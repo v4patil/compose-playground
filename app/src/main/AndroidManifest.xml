@@ -16,6 +16,10 @@
         android:theme="@style/Theme.ComposeApplication">
 
         <activity
+            android:name=".ChatRoom.ChatRoomActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".music.MusicActivity"
             android:exported="true">
         </activity>
