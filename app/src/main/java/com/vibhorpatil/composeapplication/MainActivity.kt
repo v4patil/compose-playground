@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.vibhorpatil.composeapplication.ChatRoom.ChatRoomActivity
 import com.vibhorpatil.composeapplication.music.MusicActivity
 import com.vibhorpatil.composeapplication.navigation.NavigationActivity
+import com.vibhorpatil.composeapplication.paintapp.data.PaintActivity
 import com.vibhorpatil.composeapplication.receipe.RecipeActivity
 import com.vibhorpatil.composeapplication.shoppinglist.ShoppingListActivity
 import com.vibhorpatil.composeapplication.ui.theme.ComposeApplicationTheme
@@ -82,6 +83,9 @@ fun HomePage(navigateTo: (Class<*>) -> Unit) {
             }
             Button(onClick = { navigateTo(ChatRoomActivity::class.java) }) {
                 Text(text = "Chat Room")
+            }
+            Button(onClick = { navigateTo(PaintActivity::class.java) }) {
+                Text(text = "Paint")
             }
         }
     }
