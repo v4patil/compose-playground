@@ -8,13 +8,14 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import android.graphics.Color
+import android.util.TypedValue
 import android.view.MotionEvent
 
 class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
-    private var mDrawPath: CustomPath? = null
-    private var mCanvasBitmap: Bitmap? = null
-    private var mDrawPaint: Paint? = null
+    private var mDrawPath: CustomPath? = null // An Variable of CustomPath inner class to use it further
+    private var mCanvasBitmap: Bitmap? = null // An instance of Bitmap
+    private var mDrawPaint: Paint? = null // The Paint class holds the style and color information about how to draw
     private var mCanvasPaint: Paint? = null
     private var mBrushSize: Float = 0.toFloat()
     private var color = Color.BLACK
@@ -34,7 +35,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         mDrawPaint!!.strokeCap = Paint.Cap.ROUND
 
         mCanvasPaint = Paint(Paint.DITHER_FLAG)
-        mBrushSize = 20.toFloat()
+//        mBrushSize = 20.toFloat()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -85,6 +86,20 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         invalidate()
 
         return true
+    }
+
+    fun setSizeForBrush(newSize: Float) {
+        mBrushSize = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            newSize,
+            resources.displayMetrics
+        )
+        mDrawPaint!!.strokeWidth = mBrushSize
+    }
+
+    fun setColor(newColor: String){
+        color = Color.parseColor(newColor)
+        mDrawPaint!!.color = color
     }
 
     internal inner class CustomPath(
