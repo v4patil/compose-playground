@@ -21,6 +21,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     private var color = Color.BLACK
     private var canvas: Canvas? = null
     private var mPaths = ArrayList<CustomPath>()// to persist the changes we have make
+    private var mUndoPaths = ArrayList<CustomPath>()
 
     init{
         setUpDrawing()
@@ -100,6 +101,20 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     fun setColor(newColor: String){
         color = Color.parseColor(newColor)
         mDrawPaint!!.color = color
+    }
+
+    fun undoDrawing() {
+        if (!mPaths.isEmpty()) {
+            mUndoPaths.add(mPaths.removeAt(mPaths.size - 1))
+        }
+        invalidate()// this method will internally call the onDrawMethod
+    }
+
+    fun redoDrawing() {
+        if (!mUndoPaths.isEmpty()) {
+            mPaths.add(mUndoPaths.removeAt(mUndoPaths.size - 1))
+        }
+        invalidate()// this method will internally call the onDrawMethod
     }
 
     internal inner class CustomPath(

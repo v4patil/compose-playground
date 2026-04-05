@@ -121,6 +121,22 @@
             android:scaleType="fitXY"
             android:src="@drawable/ic_music" />
 
+        <ImageButton
+            android:id="@+id/ibUndoDrawing"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_subscribe" />
+
+        <ImageButton
+            android:id="@+id/ibRedoDrawing"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_subscribe" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,8 @@ class PaintActivity : ComponentActivity() {
     private lateinit var ibBrushSize: ImageButton
     private lateinit var llColorChooser: LinearLayout
     private lateinit var ibChooseImage: ImageButton
+    private lateinit var ibUndoDrawing: ImageButton
+    private lateinit var ibRedoDrawing: ImageButton
     private lateinit var ivBackground: ImageView
     private lateinit var mImageButtonCurrentPaint: ImageButton
     private lateinit var requestPermission: ActivityResultLauncher<Array<String>>
@@ -51,11 +53,19 @@ class PaintActivity : ComponentActivity() {
         llColorChooser = findViewById(R.id.llColorChooser)
         ibChooseImage = findViewById(R.id.ibChooseImage)
         ivBackground = findViewById(R.id.ivBackground)
+        ibUndoDrawing = findViewById(R.id.ibUndoDrawing)
+        ibRedoDrawing = findViewById(R.id.ibRedoDrawing)
     }
 
     private fun setClickListeners() {
         ibChooseImage.setOnClickListener {
             requestStoragePermission()
+        }
+        ibUndoDrawing.setOnClickListener {
+            drawingView.undoDrawing()
+        }
+        ibRedoDrawing.setOnClickListener {
+            drawingView.redoDrawing()
         }
     }
 
