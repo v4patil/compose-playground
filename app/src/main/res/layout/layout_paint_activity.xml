@@ -111,7 +111,7 @@
             android:layout_height="50dp"
             android:layout_margin="8dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_browse_music" />
+            android:src="@drawable/ic_upload_file" />
 
         <ImageButton
             android:id="@+id/ibBrushSize"
@@ -119,7 +119,7 @@
             android:layout_height="50dp"
             android:layout_margin="8dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_music" />
+            android:src="@drawable/ic_brush_size" />
 
         <ImageButton
             android:id="@+id/ibUndoDrawing"
@@ -127,7 +127,7 @@
             android:layout_height="50dp"
             android:layout_margin="8dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_subscribe" />
+            android:src="@drawable/ic_undo" />
 
         <ImageButton
             android:id="@+id/ibRedoDrawing"
@@ -135,7 +135,7 @@
             android:layout_height="50dp"
             android:layout_margin="8dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_subscribe" />
+            android:src="@drawable/ic_redo" />
 
         <ImageButton
             android:id="@+id/ibSaveImage"
@@ -143,7 +143,7 @@
             android:layout_height="50dp"
             android:layout_margin="8dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_subscribe" />
+            android:src="@drawable/ic_save" />
 
     </LinearLayout>
 
